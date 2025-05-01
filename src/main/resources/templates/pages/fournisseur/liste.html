@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${title}"></title>
+</head>
+<body>
+
+  <div class="main">
+
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th><input type="checkbox" /></th>
+            <th>Nom du fournisseur</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox" /></td>
+            <td><strong>Zuckerman Security Ltd.</strong></td>
+            <td><span class="status">Activé</span></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" /></td>
+            <td><strong>MA Inc.</strong></td>
+            <td><span class="status">Activé</span></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" /></td>
+            <td><strong>Summit Traders Ltd.</strong></td>
+            <td><span class="status">Activé</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>
