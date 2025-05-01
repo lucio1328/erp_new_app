@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Fournisseur</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #1a237e; /* Bleu foncé */
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #fff176;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #3949ab;
+        }
+
+        .header {
+            background-color: #eeeeee;
+            padding: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main {
+            padding: 20px;
+        }
+
+        .profil {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <a href="#">Choisir un fournisseur</a>
+        <a href="#">→ Lister les demandes de devis</a>
+        <a href="#">→ Mettre à jour les prix</a>
+        <a href="#">→ Lister les commandes</a>
+        <a href="#">→ Voir le statut</a>
+        <ul style="padding-left: 20px;">
+            <li>Reçu</li>
+            <li>Payé</li>
+        </ul>
+        <a href="#">→ Mode comptable</a>
+        <ul style="padding-left: 20px;">
+            <li>Voir les factures</li>
+            <li>Payer</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <div>Bienvenue dans le système</div>
+            <div class="profil">👤 lucio@erp</div>
+        </div>
+        <div class="main">
+            <h1>Bienvenue sur le tableau de bord</h1>
+            <p>Sélectionnez une action dans le menu à gauche.</p>
+        </div>
+    </div>
+
+</body>
+</html>

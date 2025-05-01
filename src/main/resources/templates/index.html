@@ -1,14 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Connexion</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connection</title>
+    <link rel="stylesheet" th:href="@{/css/connexion.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"> -->
 </head>
-<body>
-    <h1>Connection</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit asperiores, qui culpa,
-        veritatis a magni praesentium laboriosam corrupti dolorem, commodi
-        consequatur molestiae. Magni sint iusto quam sit doloremque possimus repellendus.</p>
+<body class="erp-login">
+    <div class="login-container">
+        <h2>Connexion</h2>
+        <p th:if="${error}" th:text="${error}" class="error"></p>
+
+        <form th:action="@{/login}" method="post">
+            <div class="input-group">
+                <label for="username">Nom d'utilisateur</label>
+                <div class="input-wrapper">
+                    <i class="fa fa-user icon"></i>
+                    <input type="text" id="username" name="username" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Mot de passe</label>
+                <div class="input-wrapper">
+                    <i class="fa fa-lock icon"></i>
+                    <input type="password" id="password" name="password" required>
+                </div>
+            </div>
+
+            <button type="submit">Se connecter</button>
+        </form>
+
+        <div class="login-footer">
+            <a href="#" style="color: var(--text-light); text-decoration: none;">Mot de passe oublié ?</a>
+        </div>
+    </div>
 </body>
 </html>
