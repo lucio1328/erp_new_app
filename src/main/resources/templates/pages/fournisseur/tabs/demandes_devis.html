@@ -1,0 +1,80 @@
+<h2>Liste des demandes de devis</h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Titre</th>
+      <th>Statut</th>
+      <th>Date</th>
+      <th>Valable jusqu'à</th>
+      <th>Total TTC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="quotation : ${quotations}">
+      <td>
+        <a th:href="@{/fournisseur/quotation/edit/{id}(id=${quotation.id})}"
+           th:text="${quotation.reference}"></a>
+      </td>
+      <td th:text="${quotation.supplierName}"></td>
+      <td>
+        <span class="status" th:classappend="${quotation.status == 'Draft' ? 'draft' : 
+                                              (quotation.status == 'Submitted' ? 'submitted' : 
+                                               (quotation.status == 'Approved' ? 'approved' : 
+                                                (quotation.status == 'Rejected' ? 'rejected' : 
+                                                 (quotation.status == 'Ordered' ? 'ordered' : 
+                                                  (quotation.status == 'Closed' ? 'closed' : 
+                                                   (quotation.status == 'Cancelled' ? 'cancelled' : ''))))))}"
+              th:text="${quotation.status}">Submitted</span>
+      </td>
+      <td th:text="${quotation.transactionDate}"></td>
+      <td th:text="${quotation.validTill}"></td>
+      <td th:text="${quotation.total} + ' ' + ${quotation.currency}"></td>
+    </tr>
+  </tbody>
+</table>
+
+<style>
+  .status.draft {
+    border: 2px solid gray !important;
+    background-color: #f0f0f0 !important;
+    color: #888 !important;
+  }
+
+  .status.submitted {
+    border: 2px solid orange !important;
+    background-color: #fff3e0 !important;
+    color: orange !important;
+  }
+
+  .status.approved {
+    border: 2px solid green !important;
+    background-color: #e8f5e9 !important;
+    color: green !important;
+  }
+
+  .status.rejected {
+    border: 2px solid red !important;
+    background-color: #ffebee !important;
+    color: red !important;
+  }
+
+  .status.ordered {
+    border: 2px solid blue !important;
+    background-color: #e3f2fd !important;
+    color: blue !important;
+  }
+
+  .status.closed {
+    border: 2px solid gray !important;
+    background-color: #e0e0e0 !important;
+    color: gray !important;
+  }
+
+  .status.cancelled {
+    border: 2px solid #9e9e9e !important;
+    background-color: #f5f5f5 !important;
+    color: #9e9e9e !important;
+  }
+</style>
+

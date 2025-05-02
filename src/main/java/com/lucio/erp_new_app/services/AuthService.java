@@ -32,11 +32,10 @@ public class AuthService {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-
             if (response.getStatusCode() == HttpStatus.OK) {
                 String sessionCookie = response.getHeaders().getFirst(HttpHeaders.SET_COOKIE);
                 System.out.println("Session ERPNext : " + sessionCookie);
-                return new LoginResult(true, "Connexion réussie");
+                return new LoginResult(true, "Connexion réussie", sessionCookie);
             }
             else {
                 return new LoginResult(false, "Erreur inconnue (code HTTP : " + response.getStatusCode() + ")");
@@ -60,4 +59,27 @@ public class AuthService {
         }
 
     }
+
+    //======================================================================================================================
+    public String getLoggedUsername(String sessionCookie) {
+        String url = erpnextProperties.getUrl() + "/api/method/frappe.auth.get_logged_user";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", sessionCookie);
+
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode json = mapper.readTree(response.getBody());
+
+            return json.path("message").asText();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

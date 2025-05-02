@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${title}"></title>
+  <link rel="stylesheet" th:href="@{/css/modele.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <h1>ERPNext</h1>
+    <a href="#"><i class="fas fa-home"></i> Accueil</a>
+    <a th:href="@{/fournisseur/liste}"><i class="fas fa-truck"></i> Fournisseur</a>
+    <a href="#"><i class="fas fa-file-invoice"></i> Factures</a>
+    <a href="#"><i class="fas fa-chart-line"></i> Rapports</a>
+    <a href="#"><i class="fas fa-cog"></i> Paramètres</a>
+  </aside>
+
+  <div class="main">
+    <div class="header">
+      <span class="entete" th:text="${title}"></span>
+
+      <div class="user-dropdown">
+        <div class="user-dropdown-btn">
+          <div class="user-avatar" th:text="${#strings.substring(loggedUser, 0, 1)}"></div>
+          <span th:text="${loggedUser}"></span>
+          <i class="fas fa-chevron-down" style="font-size: 0.8rem;"></i>
+        </div>
+        <div class="user-dropdown-content">
+          <a href="#"><i class="fas fa-user"></i> Mon profil</a>
+          <a href="#"><i class="fas fa-cog"></i> Paramètres</a>
+          <a href="#" id="logoutLink">
+            <i class="fas fa-sign-out-alt"></i> Déconnexion
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div th:include="${view}"></div>
+    </div>
+  </div>
+
+  <form id="logoutForm" action="/deconnexion" method="get" style="display: none;"></form>
+
+  <script>
+    document.getElementById('logoutLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('logoutForm').submit();
+    });
+  </script>
+
+</body>
+</html>

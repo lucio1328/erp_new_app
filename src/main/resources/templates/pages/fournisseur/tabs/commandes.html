@@ -1,0 +1,41 @@
+<h2>Liste des commandes</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Référence</th>
+            <th>Date</th>
+            <th>Total TTC</th>
+            <th>Statut</th>
+            <th>% Facturé</th>
+            <th>% Reçu</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="commande : ${commandes}">
+            <td th:text="${commande.reference}"></td>
+            <td th:text="${commande.transactionDate}"></td>
+            <td th:text="${#numbers.formatDecimal(commande.total, 1, 'POINT', 2, 'COMMA')} + ' ' + ${commande.currency}"></td>
+            <td>
+              <span class="status"
+                    th:classappend="${commande.status == 'Completed' ? 'completed' : (commande.status == 'To Receive and Bill' ? 'to-receive' : '')}"
+                    th:text="${commande.status}"></span>
+            </td>
+            <td th:text="${#numbers.formatDecimal(commande.percentBilled, 1, 0) + '%'}"></td>
+            <td th:text="${#numbers.formatDecimal(commande.percentReceived, 1, 0) + '%'}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<style>
+  .status.completed {
+      border: 2px solid rgb(117, 242, 117) !important;
+      background-color: #e8f5e9 !important;
+      color: green !important;
+  }
+
+  .status.to-receive {
+      border: 2px solid rgb(238, 213, 166) !important;
+      background-color: #fff3e0 !important;
+      color: orange !important;
+  }
+</style>

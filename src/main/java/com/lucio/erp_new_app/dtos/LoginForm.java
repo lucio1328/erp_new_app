@@ -10,7 +10,8 @@ public class LoginForm {
         this.username = username;
         this.password = password;
     }
-    // Getters & Setters
+
+
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
