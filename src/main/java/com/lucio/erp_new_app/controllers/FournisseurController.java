@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lucio.erp_new_app.dtos.PurchaseOrderDTO;
+import com.lucio.erp_new_app.dtos.QuotationDTO;
 import com.lucio.erp_new_app.dtos.SupplierDTO;
 import com.lucio.erp_new_app.services.FournisseurService;
 
@@ -62,11 +65,16 @@ public class FournisseurController {
         this.afficherName(modelAndView);
 
         String sessionCookie = (String) session.getAttribute("sid");
+        session.setAttribute("name", name);
         SupplierDTO fournisseur = fournisseurService.getFournisseurByName(name, sessionCookie);
         if (fournisseur == null) {
             modelAndView.addObject("error", "Fournisseur non trouvé");
             return modelAndView;
         }
+        List<QuotationDTO> quotationDTOs = fournisseurService.getSupplierQuotations(name, sessionCookie);
+        List<PurchaseOrderDTO> purchaseOrderDTOs = fournisseurService.getSupplierPurchaseOrders(name, sessionCookie);
+        System.out.println(quotationDTOs.size());
+        System.out.println(purchaseOrderDTOs.size());
 
         modelAndView.addObject("fournisseur", fournisseur);
 
@@ -76,13 +84,19 @@ public class FournisseurController {
     }
 
     @GetMapping("/fragment/{section}")
-    public String fragment(@PathVariable("section") String section) {
+    public String fragment(@PathVariable("section") String section, Model model) {
+        String supplierName = (String) session.getAttribute("name");
+
+        String sessionCookie = (String) session.getAttribute("sid");
+        List<PurchaseOrderDTO> purchaseOrders = fournisseurService.getSupplierPurchaseOrders(supplierName, sessionCookie);
+
         switch (section) {
             case "details":
                 return "pages/fournisseur/tabs/information";
-            case "achats":
+            case "devis":
                 return "pages/fournisseur/tabs/demandes_devis";
-            case "commentaires":
+            case "commandes":
+                model.addAttribute("commandes", purchaseOrders);
                 return "pages/fournisseur/tabs/commandes";
             default:
                 return "pages/fournisseur/tabs/information";

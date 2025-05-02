@@ -8,23 +8,25 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
 </head>
 <body>
-  <div>
-    <b><span class="name_fournisseur" th:text="${fournisseur.name}"></span></b>
-    <span class="status"
-                    th:classappend="${fournisseur.status == 'Actif' ? 'active' : 
-                                     (fournisseur.status == 'Inactif' ? 'inactive' : 
-                                      (fournisseur.status == 'En Attente' ? 'pending' : ''))}"
-                    th:text="${fournisseur.status}">Statut</span>
-  </div>
-  <div class="submenu-container">
-    <ul class="horizontal-submenu">
-      <li><a href="#details" class="active">Details</a></li>
-      <li><a href="#achats">Liste des demandes de devis</a></li>
-      <li><a href="#commentaires">Liste commandes</a></li>
-    </ul>
-  </div>
+  <div class="fournisseur-wrapper">
+    <div class="fournisseur-header">
+      <b><span class="name_fournisseur" th:text="${fournisseur.name}"></span></b>
+      <span class="status"
+            th:classappend="${fournisseur.status == 'Actif' ? 'active' :
+                            (fournisseur.status == 'Inactif' ? 'inactive' :
+                            (fournisseur.status == 'En Attente' ? 'pending' : ''))}"
+            th:text="${fournisseur.status}">Statut</span>
+    </div>
 
-  <div id="section-content" class="fournisseur-section">
+    <div class="submenu-container">
+      <ul class="horizontal-submenu">
+        <li><a href="#details" class="active">Détails</a></li>
+        <li><a href="#devis">Liste des demandes de devis</a></li>
+        <li><a href="#commandes">Liste commandes</a></li>
+      </ul>
+    </div>
+
+    <div id="section-content" class="fournisseur-section"></div>
   </div>
 
   <script>
@@ -46,6 +48,7 @@
       link.addEventListener('click', (e) => {
         e.preventDefault();
         const section = link.getAttribute('href').substring(1);
+        window.location.hash = section;
         loadSection(section);
       });
     });
@@ -60,6 +63,5 @@
       loadSection(section);
     });
   </script>
-
 </body>
 </html>
