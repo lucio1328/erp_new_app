@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lucio.erp_new_app.dtos.PurchaseOrderDTO;
-import com.lucio.erp_new_app.dtos.QuotationDTO;
 import com.lucio.erp_new_app.dtos.SupplierDTO;
+import com.lucio.erp_new_app.dtos.SupplierQuotationDTO;
 import com.lucio.erp_new_app.services.FournisseurService;
 
 import jakarta.servlet.http.HttpSession;
@@ -61,7 +61,6 @@ public class FournisseurController {
     @GetMapping("{name}")
     public ModelAndView details(@PathVariable("name") String name) {
         ModelAndView modelAndView = new ModelAndView("pages/layout/modele");
-
         this.afficherName(modelAndView);
 
         String sessionCookie = (String) session.getAttribute("sid");
@@ -71,13 +70,7 @@ public class FournisseurController {
             modelAndView.addObject("error", "Fournisseur non trouvé");
             return modelAndView;
         }
-        List<QuotationDTO> quotationDTOs = fournisseurService.getSupplierQuotations(name, sessionCookie);
-        List<PurchaseOrderDTO> purchaseOrderDTOs = fournisseurService.getSupplierPurchaseOrders(name, sessionCookie);
-        System.out.println(quotationDTOs.size());
-        System.out.println(purchaseOrderDTOs.size());
-
         modelAndView.addObject("fournisseur", fournisseur);
-
         FournisseurController.changerInformation(modelAndView, "pages/fournisseur/details", "Details Fournisseur");
 
         return modelAndView;
@@ -89,11 +82,13 @@ public class FournisseurController {
 
         String sessionCookie = (String) session.getAttribute("sid");
         List<PurchaseOrderDTO> purchaseOrders = fournisseurService.getSupplierPurchaseOrders(supplierName, sessionCookie);
+        List<SupplierQuotationDTO> supplierQuotationDTOs = fournisseurService.getSupplierQuotations(supplierName, sessionCookie);
 
         switch (section) {
             case "details":
                 return "pages/fournisseur/tabs/information";
             case "devis":
+                model.addAttribute("quotations", supplierQuotationDTOs);
                 return "pages/fournisseur/tabs/demandes_devis";
             case "commandes":
                 model.addAttribute("commandes", purchaseOrders);
@@ -101,6 +96,20 @@ public class FournisseurController {
             default:
                 return "pages/fournisseur/tabs/information";
         }
+    }
+
+    @GetMapping("/quotation/edit/{id}")
+    public ModelAndView modifier(@PathVariable("id") String id) {
+        ModelAndView modelAndView = new ModelAndView("pages/layout/modele");
+        this.afficherName(modelAndView);
+
+        String sessionCookie = (String) session.getAttribute("sid");
+        SupplierQuotationDTO supplierQuotationDTOs = fournisseurService.getSupplierQuotationByName(id, sessionCookie);
+
+        modelAndView.addObject("supplierQuotation", supplierQuotationDTOs);
+        FournisseurController.changerInformation(modelAndView, "pages/fournisseur/tabs/modification_devis", "Modification prix devis");
+
+        return modelAndView;
     }
 
 }
