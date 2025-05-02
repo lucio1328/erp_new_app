@@ -183,3 +183,45 @@ tbody tr:hover {
 .entete {
   font-size: smaller;
 }
+
+.menu-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-radius: 6px;
+  color: #212529;
+  transition: background-color 0.2s;
+  font-size: 0.95rem;
+}
+
+.menu-toggle:hover {
+  background-color: #e9ecef;
+}
+
+.menu-toggle i:first-child {
+  margin-right: 0.75rem;
+}
+
+.menu-toggle .arrow {
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.submenu {
+  display: none;
+  flex-direction: column;
+  margin-left: 1.5rem;
+  margin-top: 0.25rem;
+}
+
+.submenu a {
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+}

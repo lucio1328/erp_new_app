@@ -6,6 +6,18 @@ td a:hover {
     text-decoration: underline;
 }
 
+.status.paid {
+    border: 2px solid rgb(117, 242, 117) !important;
+    background-color: #e8f5e9 !important;
+    color: green !important;
+}
+
+.status.overdue {
+    border: 2px solid rgb(243, 146, 146) !important;
+    background-color: #ffebee !important;
+    color: red !important;
+}
+
 .status.active {
     border: 2px solid rgb(117, 242, 117) !important;
     background-color: #e8f5e9 !important;

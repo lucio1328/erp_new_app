@@ -12,9 +12,16 @@
     <h1>ERPNext</h1>
     <a href="#"><i class="fas fa-home"></i> Accueil</a>
     <a th:href="@{/fournisseur/liste}"><i class="fas fa-truck"></i> Fournisseur</a>
-    <a href="#"><i class="fas fa-file-invoice"></i> Factures</a>
-    <a href="#"><i class="fas fa-chart-line"></i> Rapports</a>
-    <a href="#"><i class="fas fa-cog"></i> Paramètres</a>
+    <div class="menu-group">
+      <div class="menu-toggle">
+        <i class="fas fa-file-invoice"></i> Factures <i class="fas fa-chevron-down arrow"></i>
+      </div>
+      <div class="submenu">
+        <a th:href="@{/factures/client}"><i class="fas fa-user"></i> Facture client</a><br/>
+        <a th:href="@{/factures/fournisseur}"><i class="fas fa-truck-loading"></i> Facture fournisseur</a>
+      </div>
+    </div>
+
   </aside>
 
   <div class="main">
@@ -48,6 +55,15 @@
     document.getElementById('logoutLink').addEventListener('click', function(e) {
       e.preventDefault();
       document.getElementById('logoutForm').submit();
+    });
+
+    document.querySelectorAll('.menu-toggle').forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const submenu = toggle.nextElementSibling;
+        submenu.style.display = submenu.style.display === 'flex' ? 'none' : 'flex';
+        const arrow = toggle.querySelector('.arrow');
+        arrow.style.transform = submenu.style.display === 'flex' ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
     });
   </script>
 
