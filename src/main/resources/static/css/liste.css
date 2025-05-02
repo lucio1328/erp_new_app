@@ -1,0 +1,27 @@
+td a {
+    text-decoration: none;
+    color: black;
+}
+td a:hover {
+    text-decoration: underline;
+}
+
+.status.active {
+    border: 2px solid green !important;
+    background-color: #e8f5e9 !important;
+    color: green !important;
+}
+
+.status.inactive {
+    border: 2px solid red !important;
+    background-color: #ffebee !important;
+    color: red !important;
+}
+
+.status.pending {
+    border: 2px solid orange !important;
+    background-color: #fff3e0 !important;
+    color: orange !important;
+}
+
+

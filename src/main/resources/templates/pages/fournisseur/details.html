@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Détails du fournisseur</title>
+  <link rel="stylesheet" th:href="@{/css/details.css}">
+  <link rel="stylesheet" th:href="@{/css/liste.css}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
+</head>
+<body>
+  <div>
+    <b><span class="name_fournisseur" th:text="${fournisseur.name}"></span></b>
+    <span class="status"
+                    th:classappend="${fournisseur.status == 'Actif' ? 'active' : 
+                                     (fournisseur.status == 'Inactif' ? 'inactive' : 
+                                      (fournisseur.status == 'En Attente' ? 'pending' : ''))}"
+                    th:text="${fournisseur.status}">Statut</span>
+  </div>
+  <div class="submenu-container">
+    <ul class="horizontal-submenu">
+      <li><a href="#details" class="active">Details</a></li>
+      <li><a href="#achats">Liste des demandes de devis</a></li>
+      <li><a href="#commentaires">Liste commandes</a></li>
+    </ul>
+  </div>
+
+  <div id="section-content" class="fournisseur-section">
+  </div>
+
+  <script>
+    const links = document.querySelectorAll('.horizontal-submenu a');
+    const container = document.getElementById('section-content');
+
+    function loadSection(section) {
+      fetch(`/fournisseur/fragment/${section}`)
+        .then(res => res.text())
+        .then(html => {
+          container.innerHTML = html;
+          links.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${section}`);
+          });
+        });
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const section = link.getAttribute('href').substring(1);
+        loadSection(section);
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const section = location.hash.replace('#', '') || 'details';
+      loadSection(section);
+    });
+
+    window.addEventListener('hashchange', () => {
+      const section = location.hash.replace('#', '') || 'details';
+      loadSection(section);
+    });
+  </script>
+
+</body>
+</html>

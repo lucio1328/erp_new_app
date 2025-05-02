@@ -1,0 +1,92 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f6f8;
+    padding: 20px;
+    color: #333;
+  }
+
+  .submenu-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    padding: 10px 20px;
+  }
+
+  .horizontal-submenu {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+  }
+
+  .horizontal-submenu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 10px 16px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: inline-block;
+  }
+
+  .horizontal-submenu li a:hover {
+    background-color: #e0e7ff;
+    color: #1e40af;
+  }
+
+  .horizontal-submenu li a.active {
+    background-color: #1e40af;
+    color: white;
+    font-weight: bold;
+  }
+
+  .fournisseur-section {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    margin-bottom: 20px;
+  }
+
+  .fournisseur-section h2 {
+    margin-top: 0;
+    color: #1e3a8a;
+    font-size: 1.25rem;
+  }
+
+  .fournisseur-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .fournisseur-section table th,
+  .fournisseur-section table td {
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+
+  .fournisseur-section table th {
+    background-color: #f1f5f9;
+    color: #1f2937;
+  }
+
+  .fournisseur-section ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    padding-left: 10px;
+  }
+
+  .fournisseur-section ul li {
+    margin-bottom: 8px;
+  }
+
+  .name_fournisseur {
+    font-size: larger;
+    margin-right: 10px;
+  }

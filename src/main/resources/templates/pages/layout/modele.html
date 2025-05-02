@@ -10,8 +10,8 @@
 
   <aside class="sidebar">
     <h1>ERPNext</h1>
-    <a href="#" class="active"><i class="fas fa-home"></i> Accueil</a>
-    <a href="#"><i class="fas fa-truck"></i> Fournisseur</a>
+    <a href="#"><i class="fas fa-home"></i> Accueil</a>
+    <a th:href="@{/fournisseur/liste}"><i class="fas fa-truck"></i> Fournisseur</a>
     <a href="#"><i class="fas fa-file-invoice"></i> Factures</a>
     <a href="#"><i class="fas fa-chart-line"></i> Rapports</a>
     <a href="#"><i class="fas fa-cog"></i> Paramètres</a>
@@ -19,8 +19,8 @@
 
   <div class="main">
     <div class="header">
-      <span th:text="${title}"></span>
-      
+      <span class="entete" th:text="${title}"></span>
+
       <div class="user-dropdown">
         <div class="user-dropdown-btn">
           <div class="user-avatar" th:text="${#strings.substring(loggedUser, 0, 1)}"></div>
@@ -42,7 +42,6 @@
     </div>
   </div>
 
-  <!-- Logout Form -->
   <form id="logoutForm" action="/deconnexion" method="get" style="display: none;"></form>
 
   <script>
