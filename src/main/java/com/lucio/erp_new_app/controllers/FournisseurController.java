@@ -27,7 +27,7 @@ public class FournisseurController {
     @Autowired
     private HttpSession session;
 
-    private static void changerInformation(ModelAndView modelAndView, String view, String title) {
+    public static void changerInformation(ModelAndView modelAndView, String view, String title) {
         if (modelAndView != null) {
             modelAndView.addObject("view", view);
             modelAndView.addObject("title", title);
@@ -35,7 +35,7 @@ public class FournisseurController {
         return;
     }
 
-    private void afficherName(ModelAndView modelAndView) {
+    public void afficherName(ModelAndView modelAndView) {
         String loggedUser = (String) session.getAttribute("loggedUser");
         if (loggedUser == null) {
             loggedUser = "Utilisateur inconnu";

@@ -67,7 +67,7 @@ public class FournisseurService {
         return fetchData(url, sessionCookie, this::mapToPurchaseOrderDTO);
     }
 
-    private <T> List<T> fetchData(String url, String sessionCookie, Function<JsonNode, T> mapper) {
+    public <T> List<T> fetchData(String url, String sessionCookie, Function<JsonNode, T> mapper) {
         try {
             ResponseEntity<String> response = executeRequest(url, sessionCookie);
             JsonNode json = objectMapper.readTree(response.getBody());
@@ -98,7 +98,7 @@ public class FournisseurService {
         return restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
     }
 
-    private String buildUrl(String doctype, String[] fields) {
+    public String buildUrl(String doctype, String[] fields) {
         return String.format("%s/api/resource/%s?fields=[\"%s\"]",
                            erpnextProperties.getUrl(),
                            doctype,

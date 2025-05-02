@@ -1,0 +1,22 @@
+td a {
+    text-decoration: none;
+    color: black;
+}
+td a:hover {
+    text-decoration: underline;
+}
+
+.statut.paid {
+    border: 2px solid rgb(117, 242, 117);
+    background-color: #e8f5e9;
+    color: green;
+}
+
+.statut.overdue {
+    border: 2px solid rgb(243, 146, 146);
+    background-color: #ffebee;
+    color: red;
+}
+
+
+

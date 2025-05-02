@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des factures fournisseurs</title>
+  <!-- <link rel="stylesheet" th:href="@{/css/liste_facture.css}"> -->
+   <style>
+        .statut {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-weight: 500;
+        font-size: 0.85em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        background-color: #f0f0f0;
+        }
+        .statut.paid {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #c8e6c9;
+        }
+        .statut.overdue {
+        background-color: #ffebee;
+        color: #c62828;
+        border: 1px solid #ffcdd2;
+        }
+   </style>
+</head>
+<body>
+
+  <div class="main">
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Fournisseur</th>
+            <th>Statut</th>
+            <th>Date</th>
+            <th class="amount">Total TTC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="facture : ${factureFournisseurs}">
+            <td>
+                <div class="text-muted" th:text="${facture.name}"></div>
+            </td>
+            <td>
+              <b th:text="${facture.supplierName}"></b>
+            </td>
+            <td>
+                <span class="statut"
+                      th:classappend="${facture.status == 'Paid' ? 'paid' :
+                                      (facture.status == 'Overdue' ? 'overdue' : '')}"
+                      th:text="${facture.status}"></span>
+              </td>
+            <td th:text="${facture.postingDate}"></td>
+            <td class="amount" th:text="${#numbers.formatDecimal(facture.grandTotal, 1, 'POINT', 2, 'COMMA') + ' ' + facture.currency}">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>
