@@ -1,0 +1,19 @@
+<link rel="stylesheet" th:href="@{/css/success.css}">
+<div class="success-container">
+    <div class="success-box">
+        <div class="success-content">
+            <div class="success-icon">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h2>Paiement validé avec succès</h2>
+            <p>
+                Le paiement pour la facture <span class="highlight" th:text="${invoiceNumber}"></span> a été enregistré et validé.
+            </p>
+            <div class="success-actions">
+                <a th:href="@{/factures/fournisseur}" class="btn btn-primary">Retour à la liste des factures</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Détails du fournisseur</title>
+  <title th:text="${title} + ' - ' + ${fournisseur.name}">Détails du fournisseur</title>
   <link rel="stylesheet" th:href="@{/css/details.css}">
   <link rel="stylesheet" th:href="@{/css/liste.css}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap">
+  <style>
+    .fournisseur-section {
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .commandes-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .search-results {
+      flex-grow: 1;
+      overflow: auto;
+      margin-top: 20px;
+    }
+    .reset-btn {
+      padding: 8px 16px;
+      background-color: #6c757d;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+  </style>
 </head>
 <body>
   <div class="fournisseur-wrapper">
@@ -20,48 +46,18 @@
 
     <div class="submenu-container">
       <ul class="horizontal-submenu">
-        <li><a href="#details" class="active">Détails</a></li>
-        <li><a href="#devis">Liste des demandes de devis</a></li>
-        <li><a href="#commandes">Liste commandes</a></li>
+        <li><a th:href="@{/fournisseur/{name}/details(name=${fournisseur.name})}"
+               th:classappend="${section == 'details' ? 'active' : ''}">Détails</a></li>
+        <li><a th:href="@{/fournisseur/{name}/devis(name=${fournisseur.name})}"
+               th:classappend="${section == 'devis' ? 'active' : ''}">Devis</a></li>
+        <li><a th:href="@{/fournisseur/{name}/commandes(name=${fournisseur.name})}"
+               th:classappend="${section == 'commandes' ? 'active' : ''}">Commandes</a></li>
       </ul>
     </div>
 
-    <div id="section-content" class="fournisseur-section"></div>
+    <div class="fournisseur-section">
+      <div th:replace="${template}"></div>
+    </div>
   </div>
-
-  <script>
-    const links = document.querySelectorAll('.horizontal-submenu a');
-    const container = document.getElementById('section-content');
-
-    function loadSection(section) {
-      fetch(`/fournisseur/fragment/${section}`)
-        .then(res => res.text())
-        .then(html => {
-          container.innerHTML = html;
-          links.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('href') === `#${section}`);
-          });
-        });
-    }
-
-    links.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const section = link.getAttribute('href').substring(1);
-        window.location.hash = section;
-        loadSection(section);
-      });
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const section = location.hash.replace('#', '') || 'details';
-      loadSection(section);
-    });
-
-    window.addEventListener('hashchange', () => {
-      const section = location.hash.replace('#', '') || 'details';
-      loadSection(section);
-    });
-  </script>
 </body>
 </html>

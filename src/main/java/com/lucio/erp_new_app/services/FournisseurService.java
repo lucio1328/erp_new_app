@@ -1,6 +1,9 @@
 package com.lucio.erp_new_app.services;
 
-import com.lucio.erp_new_app.dtos.*;
+import com.lucio.erp_new_app.dtos.purchase.PurchaseOrderDTO;
+import com.lucio.erp_new_app.dtos.supplier.QuotationItemDTO;
+import com.lucio.erp_new_app.dtos.supplier.SupplierDTO;
+import com.lucio.erp_new_app.dtos.supplier.SupplierQuotationDTO;
 import com.lucio.erp_new_app.config.ErpnextProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -42,7 +45,7 @@ public class FournisseurService {
 
     public SupplierDTO getFournisseurByName(String name, String sessionCookie) {
         String url = String.format("%s/api/resource/Supplier/%s",
-                                 erpnextProperties.getUrl(), name);
+                                erpnextProperties.getUrl(), name);
         return fetchSingleData(url, sessionCookie, this::mapToSupplierDTO);
     }
 
@@ -56,14 +59,14 @@ public class FournisseurService {
 
     public SupplierQuotationDTO getSupplierQuotationByName(String name, String sessionCookie) {
         String url = String.format("%s/api/resource/Supplier Quotation/%s",
-                                 erpnextProperties.getUrl(), name);
+                                erpnextProperties.getUrl(), name);
         return fetchSingleData(url, sessionCookie, this::mapToSupplierQuotationDTO);
     }
 
 
     public List<PurchaseOrderDTO> getSupplierPurchaseOrders(String supplierName, String sessionCookie) {
         String url = String.format("%s/api/resource/Purchase Order?fields=[\"*\"]&filters=[[\"supplier\",\"=\",\"%s\"]]",
-                                 erpnextProperties.getUrl(), supplierName);
+                                erpnextProperties.getUrl(), supplierName);
         return fetchData(url, sessionCookie, this::mapToPurchaseOrderDTO);
     }
 
@@ -91,7 +94,7 @@ public class FournisseurService {
         }
     }
 
-    private ResponseEntity<String> executeRequest(String url, String sessionCookie) {
+    public ResponseEntity<String> executeRequest(String url, String sessionCookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", sessionCookie);
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -100,9 +103,9 @@ public class FournisseurService {
 
     public String buildUrl(String doctype, String[] fields) {
         return String.format("%s/api/resource/%s?fields=[\"%s\"]",
-                           erpnextProperties.getUrl(),
-                           doctype,
-                           String.join("\",\"", fields));
+                        erpnextProperties.getUrl(),
+                        doctype,
+                        String.join("\",\"", fields));
     }
 
     private SupplierDTO mapToSupplierDTO(JsonNode node) {
@@ -136,7 +139,6 @@ public class FournisseurService {
         dto.setContactEmail(node.path("contact_email").asText(null));
         dto.setContactMobile(node.path("contact_mobile").asText(null));
 
-        // Article
         if (node.has("items")) {
             List<QuotationItemDTO> items = new ArrayList<>();
             for (JsonNode itemNode : node.path("items")) {

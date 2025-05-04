@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.auth;
 
 public class LoginForm {
     private String username;

@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.supplier;
 
 public class SupplierDTO {
 
@@ -26,7 +26,6 @@ public class SupplierDTO {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -34,7 +33,6 @@ public class SupplierDTO {
     public String getSupplierName() {
         return supplierName;
     }
-
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
     }
@@ -42,7 +40,6 @@ public class SupplierDTO {
     public String getSupplierGroup() {
         return supplierGroup;
     }
-
     public void setSupplierGroup(String supplierGroup) {
         this.supplierGroup = supplierGroup;
     }
@@ -50,7 +47,6 @@ public class SupplierDTO {
     public String getSupplierType() {
         return supplierType;
     }
-
     public void setSupplierType(String supplierType) {
         this.supplierType = supplierType;
     }
@@ -58,7 +54,6 @@ public class SupplierDTO {
     public String getCountry() {
         return country;
     }
-
     public void setCountry(String country) {
         this.country = country;
     }
@@ -66,7 +61,6 @@ public class SupplierDTO {
     public String getDefaultCurrency() {
         return defaultCurrency;
     }
-
     public void setDefaultCurrency(String defaultCurrency) {
         this.defaultCurrency = defaultCurrency;
     }

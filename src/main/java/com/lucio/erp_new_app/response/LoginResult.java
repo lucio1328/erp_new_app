@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.exception;
+package com.lucio.erp_new_app.response;
 
 public class LoginResult {
     private boolean success;

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation de Paiement</title>
+    <link rel="stylesheet" th:href="@{/css/submit.css}">
+    <script>
+        function closeMessage(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <form id="submitPaymentForm" th:action="@{/paiement/submit}" method="post">
+            <input type="hidden" name="paymentName" th:value="${paymentName}">
+
+            <div class="header">
+                <div>
+                    <h1>Confirmation de Paiement</h1>
+                    <p class="reference">Référence: <span th:text="${paymentDTO.invoiceName}"></span></p>
+                </div>
+                <div class="buttons">
+                    <a th:href="@{/factures/fournisseur}" class="btn btn-secondary">Annuler</a>
+                    <button type="submit" class="btn btn-primary">✔ Valider le Paiement</button>
+                </div>
+            </div>
+
+            <div th:if="${error}" id="error-message" class="alert alert-error">
+                <span th:text="${error}"></span>
+                <button type="button" onclick="closeMessage('error-message')" class="close-btn">×</button>
+            </div>
+
+            <div class="card">
+                <h2>Récapitulatif du Paiement</h2>
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Informations de base</h3>
+                        <dl>
+                            <dt>Type de paiement:</dt>
+                            <dd th:text="${paymentDTO.paymentType}"></dd>
+                            <dt>Société:</dt>
+                            <dd th:text="${paymentDTO.company}"></dd>
+                            <dt>Date:</dt>
+                            <dd th:text="${paymentDTO.postingDate}"></dd>
+                        </dl>
+                    </div>
+                    <div class="col">
+                        <h3>Montants</h3>
+                        <dl>
+                            <dt>Montant payé:</dt>
+                            <dd th:text="${paymentDTO.paidAmount + ' ' + paymentDTO.currency}"></dd>
+                            <dt>Montant alloué:</dt>
+                            <dd th:text="${paymentDTO.allocatedAmount + ' ' + paymentDTO.currency}"></dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Compte source</h3>
+                        <dl>
+                            <dt>Compte:</dt>
+                            <dd th:text="${paymentDTO.paidFrom}"></dd>
+                            <dt>Devise:</dt>
+                            <dd th:text="${paymentDTO.paidFromAccountCurrency}"></dd>
+                        </dl>
+                    </div>
+                    <div class="col">
+                        <h3>Compte destination</h3>
+                        <dl>
+                            <dt>Compte:</dt>
+                            <dd th:text="${paymentDTO.paidTo}"></dd>
+                            <dt>Devise:</dt>
+                            <dd th:text="${paymentDTO.paidToAccountCurrency}"></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

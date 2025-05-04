@@ -1,8 +1,8 @@
 package com.lucio.erp_new_app.services;
 
 import com.lucio.erp_new_app.config.ErpnextProperties;
-import com.lucio.erp_new_app.dtos.LoginForm;
-import com.lucio.erp_new_app.exception.LoginResult;
+import com.lucio.erp_new_app.dtos.auth.LoginForm;
+import com.lucio.erp_new_app.response.LoginResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
