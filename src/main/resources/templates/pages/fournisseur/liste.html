@@ -21,7 +21,8 @@
         <tbody>
           <tr th:each="fournisseur : ${fournisseurs}">
             <td>
-                <b><a th:href="@{'/fournisseur/' + ${fournisseur.name}}" th:text="${fournisseur.supplierName}">Nom du fournisseur</a></b>
+              <b><a th:href="@{/fournisseur/{name}/details(name=${fournisseur.name})}" 
+                    th:text="${fournisseur.supplierName}">Nom du fournisseur</a></b>
             </td>
             <td>
               <span class="status"

@@ -1,41 +1,96 @@
-<h2>Liste des commandes</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Référence</th>
-            <th>Date</th>
-            <th>Total TTC</th>
-            <th>Statut</th>
-            <th>% Facturé</th>
-            <th>% Reçu</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="commande : ${commandes}">
-            <td th:text="${commande.reference}"></td>
-            <td th:text="${commande.transactionDate}"></td>
-            <td th:text="${#numbers.formatDecimal(commande.total, 1, 'POINT', 2, 'COMMA')} + ' ' + ${commande.currency}"></td>
-            <td>
-              <span class="status"
-                    th:classappend="${commande.status == 'Completed' ? 'completed' : (commande.status == 'To Receive and Bill' ? 'to-receive' : '')}"
-                    th:text="${commande.status}"></span>
-            </td>
-            <td th:text="${#numbers.formatDecimal(commande.percentBilled, 1, 0) + '%'}"></td>
-            <td th:text="${#numbers.formatDecimal(commande.percentReceived, 1, 0) + '%'}"></td>
-        </tr>
-    </tbody>
-</table>
+<h2 style="font-weight: 600; color: #1a237e;">Liste des commandes</h2>
 
+<form th:action="@{/fournisseur/{name}/commandes(name=${fournisseur.name})}" method="get" id="commandes-search-form" class="search-form">
+    <input type="text" name="reference" placeholder="Référence" />
+
+    <select name="status">
+        <option value="">-- Statut --</option>
+        <option th:each="statut : ${statuts}"
+                th:value="${statut}"
+                th:text="${statut}">
+        </option>
+    </select>
+
+    <input type="date" name="startDate" id="startDate" />
+    <input type="date" name="endDate" id="endDate" />
+
+    <button type="submit">Rechercher</button>
+</form>
+
+<div id="commandes-resultats">
+    <table>
+        <thead>
+            <tr>
+                <th>Référence</th>
+                <th>Date</th>
+                <th>Total TTC</th>
+                <th>Statut</th>
+                <th>% Facturé</th>
+                <th>% Reçu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="commande : ${commandes}">
+                <td th:text="${commande.reference}"></td>
+                <td th:text="${commande.transactionDate}"></td>
+                <td th:text="${#numbers.formatDecimal(commande.total, 1, 'POINT', 2, 'COMMA')} + ' ' + ${commande.currency}"></td>
+                <td>
+                    <span class="status"
+                          th:classappend="${commande.status == 'Completed' ? 'completed' : (commande.status == 'To Receive and Bill' ? 'to-receive' : '')}"
+                          th:text="${commande.status}"></span>
+                </td>
+                <td th:text="${#numbers.formatDecimal(commande.percentBilled, 1, 0) + '%'}"></td>
+                <td th:text="${#numbers.formatDecimal(commande.percentReceived, 1, 0) + '%'}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <style>
-  .status.completed {
-      border: 2px solid rgb(117, 242, 117) !important;
-      background-color: #e8f5e9 !important;
-      color: green !important;
-  }
+    .status.completed {
+        border: 2px solid rgb(117, 242, 117) !important;
+        background-color: #e8f5e9 !important;
+        color: green !important;
+    }
 
-  .status.to-receive {
-      border: 2px solid rgb(238, 213, 166) !important;
-      background-color: #fff3e0 !important;
-      color: orange !important;
-  }
+    .status.to-receive {
+        border: 2px solid rgb(238, 213, 166) !important;
+        background-color: #fff3e0 !important;
+        color: orange !important;
+    }
+
+    .search-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin: 20px 0;
+        background-color: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        align-items: center;
+    }
+
+    .search-form input,
+    .search-form select {
+        padding: 8px 12px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        min-width: 160px;
+        background-color: #f9f9f9;
+    }
+
+    .search-form button {
+        padding: 8px 16px;
+        background-color: #0d6efd;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .search-form button:hover {
+        background-color: #0b5ed7;
+    }
 </style>

@@ -2,12 +2,16 @@ package com.lucio.erp_new_app.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lucio.erp_new_app.config.ErpnextProperties;
 import com.lucio.erp_new_app.dtos.FactureClient;
 import com.lucio.erp_new_app.dtos.FactureFournisseur;
 
@@ -15,6 +19,9 @@ import com.lucio.erp_new_app.dtos.FactureFournisseur;
 public class FactureService {
     @Autowired
     private FournisseurService fournisseurService;
+
+    private final ErpnextProperties erpnextProperties;
+    private final ObjectMapper objectMapper;
 
     private static final String[] PURCHASE_INVOICE_FIELDS = {
         "name", "owner", "creation", "modified", "modified_by",
@@ -41,9 +48,33 @@ public class FactureService {
         "customer_group", "is_pos", "pos_profile"
     };
 
+    public FactureService(ErpnextProperties erpnextProperties, ObjectMapper objectMapper) {
+        this.erpnextProperties = erpnextProperties;
+        this.objectMapper = objectMapper;
+    }
+
     public List<FactureFournisseur> getAllFactureFournisseur(String sessionCookie) {
         String url = fournisseurService.buildUrl("Purchase Invoice", PURCHASE_INVOICE_FIELDS);
         return fournisseurService.fetchData(url, sessionCookie, this::mapToFactureFournisseur);
+    }
+
+    public FactureFournisseur getFactureByName(String name, String sessionCookie) throws Exception {
+        String url = String.format("%s/api/resource/Purchase Invoice/%s",
+                                erpnextProperties.getUrl(),
+                                name);
+        try {
+            ResponseEntity<String> response = fournisseurService.executeRequest(url, sessionCookie);
+            JsonNode node = objectMapper.readTree(response.getBody()).path("data");
+
+            if (node.isMissingNode()) {
+                throw new Exception("Facture non trouvée avec le nom: " + name);
+            }
+
+            return mapToFactureFournisseur(node);
+        }
+        catch (Exception e) {
+            throw e;
+        }
     }
 
     private FactureFournisseur mapToFactureFournisseur(JsonNode node) {
@@ -99,6 +130,22 @@ public class FactureService {
         facture.setRemarks(node.path("remarks").asText());
         facture.setSupplierGroup(node.path("supplier_group").asText());
         facture.setLanguage(node.path("language").asText());
+
+        if (node.has("items")) {
+        List<FactureFournisseur.FactureItem> items = new ArrayList<>();
+        for (JsonNode itemNode : node.path("items")) {
+            FactureFournisseur.FactureItem item = new FactureFournisseur.FactureItem();
+            item.setItemCode(itemNode.path("item_code").asText());
+            item.setItemName(itemNode.path("item_name").asText());
+            item.setQuantity(itemNode.path("qty").asDouble());
+            item.setRate(itemNode.path("rate").asDouble());
+            item.setAmount(itemNode.path("amount").asDouble());
+            item.setUom(itemNode.path("uom").asText());
+            item.setWarehouse(itemNode.path("warehouse").asText());
+            items.add(item);
+        }
+        facture.setItems(items);
+    }
 
         return facture;
     }

@@ -1,19 +1,22 @@
 package com.lucio.erp_new_app.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lucio.erp_new_app.dtos.PurchaseOrderDTO;
 import com.lucio.erp_new_app.dtos.SupplierDTO;
 import com.lucio.erp_new_app.dtos.SupplierQuotationDTO;
 import com.lucio.erp_new_app.services.FournisseurService;
+import com.lucio.erp_new_app.utils.Fonction;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -58,7 +61,7 @@ public class FournisseurController {
         return modelAndView;
     }
 
-    @GetMapping("{name}")
+    @GetMapping("/{name}/details")
     public ModelAndView details(@PathVariable("name") String name) {
         ModelAndView modelAndView = new ModelAndView("pages/layout/modele");
         this.afficherName(modelAndView);
@@ -66,36 +69,74 @@ public class FournisseurController {
         String sessionCookie = (String) session.getAttribute("sid");
         session.setAttribute("name", name);
         SupplierDTO fournisseur = fournisseurService.getFournisseurByName(name, sessionCookie);
+
         if (fournisseur == null) {
             modelAndView.addObject("error", "Fournisseur non trouvé");
             return modelAndView;
         }
+
         modelAndView.addObject("fournisseur", fournisseur);
-        FournisseurController.changerInformation(modelAndView, "pages/fournisseur/details", "Details Fournisseur");
+        modelAndView.addObject("view", "pages/fournisseur/details");
+        modelAndView.addObject("template", "pages/fournisseur/tabs/information");
+        modelAndView.addObject("title", "Détails Fournisseur");
+        modelAndView.addObject("section", "details");
 
         return modelAndView;
     }
 
-    @GetMapping("/fragment/{section}")
-    public String fragment(@PathVariable("section") String section, Model model) {
-        String supplierName = (String) session.getAttribute("name");
+    @GetMapping("/{name}/devis")
+    public ModelAndView devis(@PathVariable("name") String name) {
+        ModelAndView modelAndView = new ModelAndView("pages/layout/modele");
+        this.afficherName(modelAndView);
 
         String sessionCookie = (String) session.getAttribute("sid");
-        List<PurchaseOrderDTO> purchaseOrders = fournisseurService.getSupplierPurchaseOrders(supplierName, sessionCookie);
-        List<SupplierQuotationDTO> supplierQuotationDTOs = fournisseurService.getSupplierQuotations(supplierName, sessionCookie);
+        session.setAttribute("name", name);
+        SupplierDTO fournisseur = fournisseurService.getFournisseurByName(name, sessionCookie);
+        List<SupplierQuotationDTO> quotations = fournisseurService.getSupplierQuotations(name, sessionCookie);
 
-        switch (section) {
-            case "details":
-                return "pages/fournisseur/tabs/information";
-            case "devis":
-                model.addAttribute("quotations", supplierQuotationDTOs);
-                return "pages/fournisseur/tabs/demandes_devis";
-            case "commandes":
-                model.addAttribute("commandes", purchaseOrders);
-                return "pages/fournisseur/tabs/commandes";
-            default:
-                return "pages/fournisseur/tabs/information";
+        modelAndView.addObject("fournisseur", fournisseur);
+        modelAndView.addObject("quotations", quotations);
+        modelAndView.addObject("view", "pages/fournisseur/details");
+        modelAndView.addObject("template", "pages/fournisseur/tabs/demandes_devis");
+        modelAndView.addObject("title", "Devis Fournisseur");
+        modelAndView.addObject("section", "devis");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/{name}/commandes")
+    public ModelAndView commandes(@PathVariable("name") String name,
+                                @RequestParam(required = false) String reference,
+                                @RequestParam(required = false) String status,
+                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        System.out.println("Reference: " + reference);
+        System.out.println("Status: " + status);
+        System.out.println("StartDate: " + startDate);
+        System.out.println("EndDate: " + endDate);
+
+        ModelAndView modelAndView = new ModelAndView("pages/layout/modele");
+        this.afficherName(modelAndView);
+
+        String sessionCookie = (String) session.getAttribute("sid");
+        session.setAttribute("name", name);
+        SupplierDTO fournisseur = fournisseurService.getFournisseurByName(name, sessionCookie);
+        List<PurchaseOrderDTO> purchaseOrders = fournisseurService.getSupplierPurchaseOrders(name, sessionCookie);
+
+        List<PurchaseOrderDTO> filteredOrders = Fonction.recherchePurchaseOrder(purchaseOrders, reference, status, startDate, endDate);
+        if ((reference == null || reference.isEmpty()) && (status == null || status.isEmpty()) && startDate == null && endDate == null) {
+            filteredOrders = purchaseOrders;
         }
+        modelAndView.addObject("fournisseur", fournisseur);
+        modelAndView.addObject("commandes", filteredOrders);
+        modelAndView.addObject("statuts", Fonction.getStatuts(purchaseOrders));
+        modelAndView.addObject("view", "pages/fournisseur/details");
+        modelAndView.addObject("template", "pages/fournisseur/tabs/commandes");
+        modelAndView.addObject("title", "Commandes Fournisseur");
+        modelAndView.addObject("section", "commandes");
+
+        return modelAndView;
     }
 
     @GetMapping("/quotation/edit/{id}")

@@ -44,7 +44,9 @@
         <tbody>
           <tr th:each="facture : ${factureFournisseurs}">
             <td>
-                <div class="text-muted" th:text="${facture.name}"></div>
+              <a th:href="@{'/factures/fournisseurs/' + ${facture.name}}"
+                 class="facture-link"
+                 th:text="${facture.name}"></a>
             </td>
             <td>
               <b th:text="${facture.supplierName}"></b>

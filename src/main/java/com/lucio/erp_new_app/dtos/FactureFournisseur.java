@@ -2,6 +2,7 @@ package com.lucio.erp_new_app.dtos;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 
@@ -56,4 +57,27 @@ public class FactureFournisseur {
     private String remarks;
     private String supplierGroup;
     private String language;
+
+    private List<FactureItem> items;
+
+    @Data
+    public static class FactureItem {
+        private String itemCode;
+        private String itemName;
+        private double quantity;
+        private double rate;
+        private double amount;
+        private String uom;
+        private String warehouse;
+    }
+
+    private List<PaymentSchedule> paymentSchedule;
+
+    @Data
+    public static class PaymentSchedule {
+        private LocalDate dueDate;
+        private double paymentAmount;
+        private double outstanding;
+        private double paidAmount;
+    }
 }

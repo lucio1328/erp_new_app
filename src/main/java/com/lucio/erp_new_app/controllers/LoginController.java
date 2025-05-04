@@ -26,6 +26,7 @@ public class LoginController {
         if (result.isSuccess()) {
             String sessionCookie = result.getSessionCookie();
             session.setAttribute("sid", sessionCookie);
+            System.out.println(sessionCookie);
 
             String loggedUser = authService.getLoggedUsername(sessionCookie);
             session.setAttribute("loggedUser", loggedUser);

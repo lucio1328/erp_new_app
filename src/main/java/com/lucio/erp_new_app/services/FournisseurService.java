@@ -91,7 +91,7 @@ public class FournisseurService {
         }
     }
 
-    private ResponseEntity<String> executeRequest(String url, String sessionCookie) {
+    public ResponseEntity<String> executeRequest(String url, String sessionCookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cookie", sessionCookie);
         headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
