@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.purchase;
 
 public class PurchaseOrderDTO {
     private String id;

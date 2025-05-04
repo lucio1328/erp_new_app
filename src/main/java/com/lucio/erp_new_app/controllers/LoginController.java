@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.lucio.erp_new_app.dtos.LoginForm;
-import com.lucio.erp_new_app.exception.LoginResult;
+import com.lucio.erp_new_app.dtos.auth.LoginForm;
+import com.lucio.erp_new_app.response.LoginResult;
 import com.lucio.erp_new_app.services.AuthService;
 
 import jakarta.servlet.http.HttpSession;

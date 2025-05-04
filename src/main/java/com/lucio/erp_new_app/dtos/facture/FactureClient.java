@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.facture;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -149,8 +149,8 @@ public class FactureClient {
     private int is_internal_customer;
     private int is_discounted;
     private String remarks;
+
     public void setIs_paid(int asInt) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setIs_paid'");
     }
 }

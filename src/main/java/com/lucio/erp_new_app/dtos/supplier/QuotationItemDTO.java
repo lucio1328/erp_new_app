@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.supplier;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -33,7 +33,6 @@ public class QuotationItemDTO {
     public String getItemName() {
         return itemName;
     }
-
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
@@ -41,7 +40,6 @@ public class QuotationItemDTO {
     public Double getQuantity() {
         return quantity;
     }
-
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
@@ -50,7 +48,6 @@ public class QuotationItemDTO {
     public String getUom() {
         return uom;
     }
-
     public void setUom(String uom) {
         this.uom = uom;
     }
@@ -58,7 +55,6 @@ public class QuotationItemDTO {
     public Double getRate() {
         return rate;
     }
-
     public void setRate(Double rate) {
         this.rate = rate;
     }
@@ -66,7 +62,6 @@ public class QuotationItemDTO {
     public Double getAmount() {
         return amount;
     }
-
     public void setAmount(Double amount) {
         this.amount = amount;
     }

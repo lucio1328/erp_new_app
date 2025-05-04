@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.lucio.erp_new_app.dtos.PurchaseOrderDTO;
+import com.lucio.erp_new_app.dtos.purchase.PurchaseOrderDTO;
 
 public class Fonction {
     // getStatuts commandes
@@ -21,10 +21,10 @@ public class Fonction {
 
     // recherche multi-criteres commandes
     public static List<PurchaseOrderDTO> recherchePurchaseOrder(List<PurchaseOrderDTO> purchaseOrders,
-                                                             String reference,
-                                                             String status,
-                                                             LocalDate startDate,
-                                                             LocalDate endDate) {
+                                                            String reference,
+                                                            String status,
+                                                            LocalDate startDate,
+                                                            LocalDate endDate) {
 
         return purchaseOrders.stream()
             .filter(po -> reference == null || matchesReference(po, reference))

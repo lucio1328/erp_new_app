@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lucio.erp_new_app.dtos.FactureClient;
-import com.lucio.erp_new_app.dtos.FactureFournisseur;
-import com.lucio.erp_new_app.dtos.PaymentDTO;
+import com.lucio.erp_new_app.dtos.facture.FactureClient;
+import com.lucio.erp_new_app.dtos.facture.FactureFournisseur;
+import com.lucio.erp_new_app.dtos.payment.PaymentDTO;
 import com.lucio.erp_new_app.services.FactureService;
 
 import jakarta.servlet.http.HttpSession;
@@ -37,7 +37,6 @@ public class FactureController {
 
         List<FactureFournisseur> factureFournisseurs = factureService.getAllFactureFournisseur(sessionCookie);
         modelAndView.addObject("factureFournisseurs", factureFournisseurs);
-
         FournisseurController.changerInformation(modelAndView, "pages/facture/facture_fournisseur", "Liste des factures fournisseurs");
 
         return modelAndView;
@@ -60,11 +59,6 @@ public class FactureController {
         paymentDTO.setPaidAmount(factureFournisseur.getOutstandingAmount());
         paymentDTO.setAllocatedAmount(factureFournisseur.getOutstandingAmount());
         paymentDTO.setParty(factureFournisseur.getSupplier());
-
-        // List<Account> bankAccounts = erpNextClient.getAccountsByType(sessionCookie, "Bank");
-        // List<Account> payableAccounts = erpNextClient.getAccountsByType(sessionCookie, "Payable");
-        // modelAndView.addObject("bankAccounts", bankAccounts);
-        // modelAndView.addObject("payableAccounts", payableAccounts);
 
         modelAndView.addObject("factureFournisseur", factureFournisseur);
         modelAndView.addObject("date",factureFournisseur.getPostingDate());

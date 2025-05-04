@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.lucio.erp_new_app.dtos.PaymentDTO;
-import com.lucio.erp_new_app.dtos.PaymentResponseGroupDTO;
-import com.lucio.erp_new_app.services.FactureService;
+import com.lucio.erp_new_app.dtos.payment.PaymentDTO;
+import com.lucio.erp_new_app.dtos.payment.PaymentResponseGroupDTO;
 import com.lucio.erp_new_app.services.PaiementService;
 
 import jakarta.servlet.http.HttpSession;
@@ -22,10 +21,10 @@ import jakarta.servlet.http.HttpSession;
 public class PaiementController {
 
     @Autowired
-    private FactureService factureService;
+    private PaiementService paiementService;
 
     @Autowired
-    private PaiementService paiementService;
+    private FournisseurController fournisseurController;
 
     @PostMapping("/process")
     public String processPayment(
@@ -74,6 +73,9 @@ public class PaiementController {
             HttpSession session) {
 
         ModelAndView modelAndView = new ModelAndView("pages/layout/modele");
+
+        fournisseurController.afficherName(modelAndView);
+
         modelAndView.addObject("view", "pages/facture/payment_submit");
         modelAndView.addObject("invoice", invoice);
         modelAndView.addObject("paymentDTO", paymentDTO);
@@ -89,7 +91,7 @@ public class PaiementController {
             ) {
 
         try {
-            String paymentSubmitResponse = paiementService.submitPaymentEntry(paymentName);
+            paiementService.submitPaymentEntry(paymentName);
             redirectAttributes.addFlashAttribute("success", "Paiement validé avec succès");
             return "redirect:/paiement/success?invoice=" + paymentName;
         } catch (Exception e) {

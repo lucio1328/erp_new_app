@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucio.erp_new_app.config.ErpnextProperties;
-import com.lucio.erp_new_app.dtos.FactureClient;
-import com.lucio.erp_new_app.dtos.FactureFournisseur;
+import com.lucio.erp_new_app.dtos.facture.FactureClient;
+import com.lucio.erp_new_app.dtos.facture.FactureFournisseur;
 
 @Service
 public class FactureService {
@@ -180,7 +180,6 @@ public class FactureService {
             facture.setDue_date(parseDate(node.path("due_date").asText()));
         }
 
-        // facture.setIs_paid(node.path("is_paid").asInt());
         facture.setIs_return(node.path("is_return").asInt());
         facture.setIs_pos(node.path("is_pos").asInt());
         facture.setPos_profile(node.path("pos_profile").asText());

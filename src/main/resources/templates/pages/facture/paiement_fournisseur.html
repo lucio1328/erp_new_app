@@ -106,7 +106,7 @@
             </div>
         </div>
 
-        <div class="payment-form-container" th:if="${facture.status != 'Paid' and facture.status != 'Payé'}">
+        <div class="payment-form-container" th:if="${facture.status != 'Paid' and facture.status != 'Payé' and facture.status != 'Draft' and facture.status != 'Brouillon'}">
             <div class="section">
                 <h3>Paiement</h3>
 
@@ -136,72 +136,72 @@
                             <option value="Internal Transfer">Transfert interne</option>
                         </select>
                     </div>
-                
+
                     <div class="form-field">
                         <label for="postingDate">Date de comptabilisation *</label>
                         <input type="date" id="postingDate" th:field="*{postingDate}" required
                                th:value="${#temporals.format(facture.postingDate, 'yyyy-MM-dd')}">
                     </div>
-                
+
                     <!-- Montants -->
                     <div class="form-field">
                         <label for="paidAmount">Montant payé *</label>
-                        <input type="number" step="0.01" id="paidAmount" th:field="*{paidAmount}" 
+                        <input type="number" step="0.01" id="paidAmount" th:field="*{paidAmount}"
                                th:max="${facture.outstandingAmount}"
                                th:value="${facture.outstandingAmount}" required>
                         <span th:text="${facture.currency}"></span>
                     </div>
-                
+
                     <div class="form-field">
-                        <label for="allocatedAmount">Montant alloué *</label>
+                        <label for="allocatedAmount">Montant alloué</label>
                         <input type="number" step="0.01" id="allocatedAmount" th:field="*{allocatedAmount}"
                                th:max="${facture.outstandingAmount}"
-                               th:value="${facture.outstandingAmount}" required>
+                               th:value="${facture.outstandingAmount}" disabled>
                         <span th:text="${facture.currency}"></span>
                     </div>
-                
+
                     <!-- Référence de paiement -->
                     <div class="form-field">
                         <label for="referenceNo">Chèque/N° de Référence *</label>
                         <input type="text" id="referenceNo" th:field="*{referenceNo}" required>
                     </div>
-                
+
                     <div class="form-field">
                         <label for="referenceDate">Date de Référence *</label>
                         <input type="date" id="referenceDate" th:field="*{referenceDate}" required
                                th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
                     </div>
-                
+
                     <!-- Comptes bancaires -->
                     <div class="form-field">
                         <label for="paidFrom">Compte Payé Du *</label>
                         <select id="paidFrom" th:field="*{paidFrom}" required>
-                            <option value="Bank Account - GD">Bank Account - GD</option>
-                            <option value="Cash - GD">Cash - GD</option>
+                            <option value="Bank Account - G">Bank Account - G</option>
+                            <option value="Cash - G">Cash - G</option>
                         </select>
                     </div>
-                
+
                     <div class="form-field">
                         <label for="paidFromAccountCurrency">Devise du compte payé du *</label>
                         <select id="paidFromAccountCurrency" th:field="*{paidFromAccountCurrency}" required>
                             <option value="EURO">EURO</option>
                         </select>
                     </div>
-                
+
                     <div class="form-field">
                         <label for="paidTo">Compte Payé Au *</label>
                         <select id="paidTo" th:field="*{paidTo}" required>
-                            <option value="Creditors - GD">Creditors - GD</option>
+                            <option value="Crediteurs - G">Crediteurs - G</option>
                         </select>
                     </div>
-                
+
                     <div class="form-field">
                         <label for="paidToAccountCurrency">Devise du compte payé au *</label>
                         <select id="paidToAccountCurrency" th:field="*{paidToAccountCurrency}" required>
                             <option value="EURO">EURO</option>
                         </select>
                     </div>
-                
+
                     <!-- Mode de paiement -->
                     <div class="form-field">
                         <label for="modeOfPayment">Mode de paiement *</label>
@@ -211,7 +211,7 @@
                             <option value="Cheque">Chèque</option>
                         </select>
                     </div>
-                
+
                     <div class="form-field">
                         <button type="submit">Valider le paiement</button>
                     </div>

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.lucio.erp_new_app.dtos.QuotationItemDTO;
-import com.lucio.erp_new_app.dtos.SupplierQuotationDTO;
+import com.lucio.erp_new_app.dtos.supplier.QuotationItemDTO;
+import com.lucio.erp_new_app.dtos.supplier.SupplierQuotationDTO;
 import com.lucio.erp_new_app.services.FournisseurService;
 
 import jakarta.servlet.http.HttpSession;
@@ -54,7 +54,7 @@ public class QuotationController {
 
                 if (originalItem != null &&
                     (!originalItem.getQuantity().equals(formItem.getQuantity()) ||
-                     !originalItem.getRate().equals(formItem.getRate()))) {
+                    !originalItem.getRate().equals(formItem.getRate()))) {
 
                     QuotationItemDTO updatedItem = new QuotationItemDTO();
                     updatedItem.setName(formItem.getName());
@@ -75,7 +75,6 @@ public class QuotationController {
             else {
                 redirectAttributes.addFlashAttribute("info", "Aucune modification détectée");
             }
-
         }
         catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Erreur lors de la mise à jour: " + e.getMessage());

@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

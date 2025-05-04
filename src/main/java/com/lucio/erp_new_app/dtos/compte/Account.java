@@ -1,13 +1,11 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.compte;
 
-// Account.java
 public class Account {
     private String name;
     private String accountType;
     private String currency;
     private String parentAccount;
 
-    // Getters and setters
     public String getName() {
         return name;
     }

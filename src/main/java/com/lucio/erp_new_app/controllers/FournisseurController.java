@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lucio.erp_new_app.dtos.PurchaseOrderDTO;
-import com.lucio.erp_new_app.dtos.SupplierDTO;
-import com.lucio.erp_new_app.dtos.SupplierQuotationDTO;
+import com.lucio.erp_new_app.dtos.purchase.PurchaseOrderDTO;
+import com.lucio.erp_new_app.dtos.supplier.SupplierDTO;
+import com.lucio.erp_new_app.dtos.supplier.SupplierQuotationDTO;
 import com.lucio.erp_new_app.services.FournisseurService;
 import com.lucio.erp_new_app.utils.Fonction;
 
@@ -43,7 +43,6 @@ public class FournisseurController {
         if (loggedUser == null) {
             loggedUser = "Utilisateur inconnu";
         }
-
         modelAndView.addObject("loggedUser", loggedUser);
     }
 

@@ -1,4 +1,4 @@
-package com.lucio.erp_new_app.dtos;
+package com.lucio.erp_new_app.dtos.facture;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
