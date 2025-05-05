@@ -63,7 +63,7 @@ public class Fonction {
 
     private static boolean matchesReference(PurchaseOrderDTO po, String reference) {
         return po.getReference() != null &&
-            po.getReference().toLowerCase().contains(reference.toLowerCase());
+            po.getReference().contains(reference);
     }
 
     private static boolean matchesStatus(PurchaseOrderDTO po, String status) {

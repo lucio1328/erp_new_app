@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Information Fournisseur</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
-    
+    <div th:fragment="contenu">
+        <table>
+            <tr>
+                <th>Nom</th>
+                <td th:text="${fournisseur.name}"></td>
+            </tr>
+            <tr>
+                <th>Nom complet</th>
+                <td th:text="${fournisseur.supplierName}"></td>
+            </tr>
+            <tr>
+                <th>Groupe</th>
+                <td th:text="${fournisseur.supplierGroup}"></td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td th:text="${fournisseur.supplierType}"></td>
+            </tr>
+            <tr>
+                <th>Pays</th>
+                <td th:text="${fournisseur.country}"></td>
+            </tr>
+            <tr>
+                <th>Devise par défaut</th>
+                <td th:text="${fournisseur.defaultCurrency}"></td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td th:text="${fournisseur.status}"></td>
+            </tr>
+        </table>
+    </div>
 </body>
 </html>
