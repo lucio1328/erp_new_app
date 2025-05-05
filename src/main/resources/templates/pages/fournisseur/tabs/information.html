@@ -29,7 +29,13 @@
             </tr>
             <tr>
                 <th>Statut</th>
-                <td th:text="${fournisseur.status}"></td>
+                <td>
+                    <span class="status"
+                        th:classappend="${fournisseur.status == 'Actif' ? 'active' :
+                                        (fournisseur.status == 'Inactif' ? 'inactive' :
+                                            (fournisseur.status == 'En Attente' ? 'pending' : ''))}"
+                        th:text="${fournisseur.status}"></span>
+                </td>
             </tr>
         </table>
     </div>
