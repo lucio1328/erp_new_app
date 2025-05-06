@@ -110,11 +110,6 @@ public class FournisseurController {
                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                 @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
 
-        System.out.println("Reference: " + reference);
-        System.out.println("Status: " + status);
-        System.out.println("StartDate: " + startDate);
-        System.out.println("EndDate: " + endDate);
-
         ModelAndView modelAndView = new ModelAndView("pages/layout/modele");
         this.afficherName(modelAndView);
 
@@ -127,9 +122,16 @@ public class FournisseurController {
         if ((reference == null || reference.isEmpty()) && (status == null || status.isEmpty()) && startDate == null && endDate == null) {
             filteredOrders = purchaseOrders;
         }
+        System.out.println("Purchase order: "+ fournisseurService.getPurchaseOrderByStatuts(purchaseOrders, "Received", "Summit Traders Ltd.", sessionCookie).size());
+        System.out.println("Name purchase: "+ fournisseurService.getPurchaseOrderNames(status, "Summit Traders Ltd.", sessionCookie));
+
+        // if (status != null && !status.isEmpty()) {
+        //     filteredOrders = fournisseurService.getPurchaseOrderByStatuts(purchaseOrders, status, name, sessionCookie);
+        // }
+
         modelAndView.addObject("fournisseur", fournisseur);
         modelAndView.addObject("commandes", filteredOrders);
-        modelAndView.addObject("statuts", Fonction.getStatuts(purchaseOrders));
+        // modelAndView.addObject("statuts", Fonction.getStatuts(purchaseOrders));
         modelAndView.addObject("view", "pages/fournisseur/details");
         modelAndView.addObject("template", "pages/fournisseur/tabs/commandes");
         modelAndView.addObject("title", "Commandes Fournisseur");

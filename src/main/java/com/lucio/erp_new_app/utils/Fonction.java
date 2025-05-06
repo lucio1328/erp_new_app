@@ -28,7 +28,7 @@ public class Fonction {
 
         return purchaseOrders.stream()
             .filter(po -> reference == null || matchesReference(po, reference))
-            .filter(po -> status == null || matchesStatus(po, status))
+            // .filter(po -> status == null || matchesStatus(po, status))
             .filter(po -> startDate == null || isAfterOrEqual(po, startDate))
             .filter(po -> endDate == null || isBeforeOrEqual(po, endDate))
             .toList();
@@ -52,10 +52,12 @@ public class Fonction {
 
             if (cleaned.contains("T")) {
                 return LocalDateTime.parse(cleaned, DateTimeFormatter.ISO_DATE_TIME).toLocalDate();
-            } else {
+            }
+            else {
                 return LocalDate.parse(cleaned, DateTimeFormatter.ISO_DATE);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             System.out.println("Erreur parsing date: " + po.getTransactionDate());
             return null;
         }
@@ -63,7 +65,7 @@ public class Fonction {
 
     private static boolean matchesReference(PurchaseOrderDTO po, String reference) {
         return po.getReference() != null &&
-            po.getReference().contains(reference);
+            po.getReference().toLowerCase().contains(reference.toLowerCase());
     }
 
     private static boolean matchesStatus(PurchaseOrderDTO po, String status) {

@@ -12,6 +12,7 @@ public class PurchaseOrderDTO {
     private String currency;
     private double percentBilled;
     private double percentReceived;
+    private String paidStatus;
 
     public PurchaseOrderDTO() {}
 
@@ -49,11 +50,18 @@ public class PurchaseOrderDTO {
     public double getPercentReceived() { return percentReceived; }
     public void setPercentReceived(double percentReceived) { this.percentReceived = percentReceived; }
 
+    public String getPaidStatus() { return paidStatus; }
+    public void setPaidStatus(String paidStatus) { this.paidStatus = paidStatus; }
+
     public boolean isCompleted() {
         return percentBilled >= 100 && percentReceived >= 100;
     }
 
     public boolean isPartiallyReceived() {
         return percentReceived > 0 && percentReceived < 100;
+    }
+
+    public boolean isPaid() {
+        return "Paid".equalsIgnoreCase(paidStatus);
     }
 }

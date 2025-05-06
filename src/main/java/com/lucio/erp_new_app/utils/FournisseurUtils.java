@@ -8,6 +8,7 @@ import com.lucio.erp_new_app.dtos.supplier.SupplierQuotationDTO;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class FournisseurUtils {
 
@@ -86,4 +87,13 @@ public class FournisseurUtils {
         System.err.println(message);
         e.printStackTrace();
     }
+
+    public static List<PurchaseOrderDTO> getPurchaseByStatut(List<PurchaseOrderDTO> purchaseOrderDTOs, List<String> namePurchaseOrder) {
+        Set<String> namesSet = new HashSet<>(namePurchaseOrder);
+
+        return purchaseOrderDTOs.stream()
+                .filter(p -> namesSet.contains(p.getReference()))
+                .collect(Collectors.toList());
+    }
+
 }

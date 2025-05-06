@@ -5,11 +5,14 @@ import com.lucio.erp_new_app.dtos.supplier.QuotationItemDTO;
 import com.lucio.erp_new_app.dtos.supplier.SupplierDTO;
 import com.lucio.erp_new_app.dtos.supplier.SupplierQuotationDTO;
 import com.lucio.erp_new_app.utils.FournisseurUtils;
+import com.lucio.erp_new_app.utils.PaiementUtils;
 import com.lucio.erp_new_app.config.ErpnextProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -67,7 +70,9 @@ public class FournisseurService {
     public List<PurchaseOrderDTO> getSupplierPurchaseOrders(String supplierName, String sessionCookie) {
         String url = String.format("%s/api/resource/Purchase Order?fields=[\"*\"]&filters=[[\"supplier\",\"=\",\"%s\"]]",
                                 erpnextProperties.getUrl(), supplierName);
-        return fetchData(url, sessionCookie, FournisseurUtils::mapToPurchaseOrderDTO);
+        List<PurchaseOrderDTO> orders = fetchData(url, sessionCookie, FournisseurUtils::mapToPurchaseOrderDTO);
+
+        return orders;
     }
 
     public <T> List<T> fetchData(String url, String sessionCookie, Function<JsonNode, T> mapper) {
@@ -108,6 +113,23 @@ public class FournisseurService {
                         erpnextProperties.getUrl(),
                         doctype,
                         String.join("\",\"", fields));
+    }
+
+    public String submitSupplierQuotation(String supplierQuotationName) {
+        String sid = PaiementUtils.getSessionId();
+        String url = erpnextProperties.getUrl() + "/api/resource/Supplier Quotation/" + supplierQuotationName;
+        Map<String, String> body = Collections.singletonMap("run_method", "submit");
+
+        HttpEntity<Map<String, String>> request = new HttpEntity<>(body, PaiementUtils.buildHeaders(sid, false, erpnextProperties));
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+            PaiementUtils.checkResponse(response);
+            return response.getBody();
+        }
+        catch (Exception e) {
+            throw PaiementUtils.handleException("Modification status du supplier quotation", e);
+        }
     }
 
     public void updateQuotationItems(String quotationId, List<QuotationItemDTO> modifiedItems, String sessionCookie) {
@@ -155,6 +177,47 @@ public class FournisseurService {
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Échec de la mise à jour: " + response.getBody());
         }
+        this.submitSupplierQuotation(quotationId);
+    }
+
+    //============================================== GET purchase order payé ============================================================
+    public List<String> getPurchaseOrderNames(String status, String supplierName, String sessionCookie) {
+        String url = UriComponentsBuilder
+                .fromHttpUrl(erpnextProperties.getUrl() + "/api/method/erpnext.eval.purchase_order.get_orders_by_status")
+                .queryParam("status", status)
+                .queryParam("supplier_name", supplierName)
+                .toUriString();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cookie", sessionCookie);
+        HttpEntity<String> request = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode root = mapper.readTree(response.getBody());
+
+            List<String> orderNames = new ArrayList<>();
+            JsonNode data = root.path("message").path("data");
+
+            if (data.isArray()) {
+                for (JsonNode order : data) {
+                    orderNames.add(order.path("name").asText());
+                }
+            }
+
+            return orderNames;
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return List.of();
+        }
+    }
+
+    public List<PurchaseOrderDTO> getPurchaseOrderByStatuts(List<PurchaseOrderDTO> purchaseOrderDTOs, String status, String supplierName, String sessionCookie) {
+        List<String> names = this.getPurchaseOrderNames(status, supplierName, sessionCookie);
+        return FournisseurUtils.getPurchaseByStatut(purchaseOrderDTOs, names);
     }
 
 }

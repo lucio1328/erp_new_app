@@ -13,6 +13,7 @@ import com.lucio.erp_new_app.dtos.facture.FactureClient;
 import com.lucio.erp_new_app.dtos.facture.FactureFournisseur;
 import com.lucio.erp_new_app.dtos.payment.PaymentDTO;
 import com.lucio.erp_new_app.services.FactureService;
+import com.lucio.erp_new_app.services.FournisseurService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -26,6 +27,9 @@ public class FactureController {
     private FactureService factureService;
 
     @Autowired
+    private FournisseurService fournisseurService;
+
+    @Autowired
     private FournisseurController fournisseurController;
 
     @GetMapping("/fournisseur")
@@ -34,6 +38,9 @@ public class FactureController {
         fournisseurController.afficherName(modelAndView);
 
         String sessionCookie = (String) session.getAttribute("sid");
+
+        // String statutFacture = fournisseurService.getPurchaseInvoiceStatus("PUR-ORD-2025-00005", sessionCookie);
+        // System.out.println("Statut facture: "+ statutFacture);
 
         List<FactureFournisseur> factureFournisseurs = factureService.getAllFactureFournisseur(sessionCookie);
         modelAndView.addObject("factureFournisseurs", factureFournisseurs);

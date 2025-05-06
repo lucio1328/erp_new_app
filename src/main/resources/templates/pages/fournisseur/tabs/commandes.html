@@ -5,10 +5,8 @@
 
     <select name="status">
         <option value="">-- Statut --</option>
-        <option th:each="statut : ${statuts}"
-                th:value="${statut}"
-                th:text="${statut}">
-        </option>
+        <option value="Paid">Payé</option>
+        <option value="Received">Reçu</option>
     </select>
 
     <input type="date" name="startDate" id="startDate" />
@@ -36,8 +34,8 @@
                 <td th:text="${#numbers.formatDecimal(commande.total, 1, 'POINT', 2, 'COMMA')} + ' ' + ${commande.currency}"></td>
                 <td>
                     <span class="status"
-                          th:classappend="${commande.status == 'Completed' ? 'completed' : (commande.status == 'To Receive and Bill' ? 'to-receive' : '')}"
-                          th:text="${commande.status}"></span>
+                        th:classappend="${commande.status == 'Completed' ? 'completed' : (commande.status == 'To Receive and Bill' ? 'to-receive' : '')}"
+                        th:text="${commande.status}"></span>
                 </td>
                 <td th:text="${#numbers.formatDecimal(commande.percentBilled, 1, 0) + '%'}"></td>
                 <td th:text="${#numbers.formatDecimal(commande.percentReceived, 1, 0) + '%'}"></td>

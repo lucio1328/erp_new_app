@@ -169,7 +169,7 @@
                     <div class="form-field">
                         <label for="referenceDate">Date de Référence *</label>
                         <input type="date" id="referenceDate" th:field="*{referenceDate}" required
-                               th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
+                            th:value="${#temporals.format(#temporals.createToday(), 'yyyy-MM-dd')}">
                     </div>
 
                     <!-- Comptes bancaires -->
@@ -177,7 +177,7 @@
                         <label for="paidFrom">Compte Payé Du *</label>
                         <select id="paidFrom" th:field="*{paidFrom}" required>
                             <option value="Bank Account - G">Bank Account - G</option>
-                            <option value="Cash - G">Cash - G</option>
+                            <option value="Espèces - G">Espèces - G</option>
                         </select>
                     </div>
 
