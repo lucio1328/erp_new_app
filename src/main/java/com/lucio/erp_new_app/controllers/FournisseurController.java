@@ -122,12 +122,10 @@ public class FournisseurController {
         if ((reference == null || reference.isEmpty()) && (status == null || status.isEmpty()) && startDate == null && endDate == null) {
             filteredOrders = purchaseOrders;
         }
-        System.out.println("Purchase order: "+ fournisseurService.getPurchaseOrderByStatuts(purchaseOrders, "Received", "Summit Traders Ltd.", sessionCookie).size());
-        System.out.println("Name purchase: "+ fournisseurService.getPurchaseOrderNames(status, "Summit Traders Ltd.", sessionCookie));
 
-        // if (status != null && !status.isEmpty()) {
-        //     filteredOrders = fournisseurService.getPurchaseOrderByStatuts(purchaseOrders, status, name, sessionCookie);
-        // }
+        if (status != null && !status.isEmpty()) {
+            filteredOrders = fournisseurService.getPurchaseOrderByStatuts(purchaseOrders, status, name, sessionCookie);
+        }
 
         modelAndView.addObject("fournisseur", fournisseur);
         modelAndView.addObject("commandes", filteredOrders);

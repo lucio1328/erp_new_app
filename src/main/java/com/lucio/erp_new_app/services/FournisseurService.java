@@ -6,10 +6,14 @@ import com.lucio.erp_new_app.dtos.supplier.SupplierDTO;
 import com.lucio.erp_new_app.dtos.supplier.SupplierQuotationDTO;
 import com.lucio.erp_new_app.utils.FournisseurUtils;
 import com.lucio.erp_new_app.utils.PaiementUtils;
+
+import jakarta.servlet.http.HttpSession;
+
 import com.lucio.erp_new_app.config.ErpnextProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -189,23 +193,29 @@ public class FournisseurService {
                 .toUriString();
 
         HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.add("Cookie", sessionCookie);
+        headers.set("Authorization", "token " + erpnextProperties.getKey() + ":" + erpnextProperties.getSecret());
+
         HttpEntity<String> request = new HttpEntity<>(headers);
-
         try {
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode root = mapper.readTree(response.getBody());
-
+            ResponseEntity<JsonNode> response = restTemplate.exchange(
+                    url,
+                    HttpMethod.GET,
+                    request,
+                    JsonNode.class
+            );
+            JsonNode root = response.getBody();
+            if (root == null) {
+                throw new RuntimeException("Réponse vide depuis ERPNext API");
+            }
+            JsonNode dataArray = root.path("message").path("data");
             List<String> orderNames = new ArrayList<>();
-            JsonNode data = root.path("message").path("data");
-
-            if (data.isArray()) {
-                for (JsonNode order : data) {
+            if (dataArray.isArray()) {
+                for (JsonNode order : dataArray) {
                     orderNames.add(order.path("name").asText());
                 }
             }
-
             return orderNames;
 
         }
